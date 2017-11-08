@@ -1,0 +1,79 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Add a Scripture";
+
+    Validation.RequireField("Chapter", "You must enter a Chapter");
+    Validation.RequireField("Book", "Book resource is required");
+    Validation.RequireField("Date", "You haven't entered a Date");
+    Validation.RequireField("Chapter Title", "We need a Book Name");
+    Validation.RequireField("Verse", "You haven't entered a verse");
+    Validation.RequireField("Notes", "Please enter some notes");
+
+    var chapter = "";
+    var book = "";
+    var date = "";
+    var chaptertitle = "";
+    var verse = "";
+    var notes = "";
+   
+
+    if (IsPost)
+    {
+        if (Validation.IsValid())
+        {
+            chapter = Request.Form["Chapter"];
+           book = Request.Form["Book"];
+            date = Request.Form["Date"];
+          chaptertitle = Request.Form["ChapterTitle"];
+            verse = Request.Form["Verse"];
+            notes = Request.Form["Notes"];
+
+            var db = Database.Open("WebPagesMovies");
+            var insertCommand = "INSERT INTO Movies (Chapter, Book, Date, Chapter Title, Verse, Notes) VALUES(@0, @1, @2, @3, @4, @5, @6)";
+            db.Execute(insertCommand, chapter, book, date, chaptertitle, verse, notes);
+
+            Response.Redirect("~/Movies");
+        }
+    }
+}
+
+<h2>Add a Scripture</h2>
+@Html.ValidationSummary()
+<form method="post">
+    <fieldset>
+        <legend>Scripture Information</legend>
+        <p>
+            <label for="chapter">Chapter:</label>
+            <input type="text" name="chapter" value="@Request.Form["chapter"]" />
+            @Html.ValidationMessage("chapter")
+
+        <p>
+            <label for="book">Book:</label>
+            <input type="text" name="book" value="@Request.Form["book"]" />
+            @Html.ValidationMessage("book")
+
+        <p>
+            <label for="date">Date:</label>
+            <input type="text" name="date" value="@Request.Form["date"]" />
+            @Html.ValidationMessage("date")
+
+        <p>
+            <label for="chapter title">Chapter Title:</label>
+            <input type="text" name="chapter title" value="@Request.Form["chapter title"]" />
+            @Html.ValidationMessage("chapter title")
+
+        <p>
+            <label for="verse">Verse:</label>
+            <input type="text" name="verse" value="@Request.Form["verse"]" />
+            @Html.ValidationMessage("verse")
+
+        <p>
+            <label for="notes">Notes:</label>
+            <input type="text" name="notes" value="@Request.Form["notes"]" />
+            @Html.ValidationMessage("notes")
+
+            <p/>
+
+<p><input type="submit" name="buttonSubmit" value="Add Scripture" /></p>
+    </fieldset>
+</form>

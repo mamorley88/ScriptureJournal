@@ -1,0 +1,56 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "List Scriptures";
+
+    var db = Database.Open("WebPagesMovies");
+    var selectCommand = "SELECT * FROM Scriptures";
+    var searchTerm = "";
+
+    if (!Request.QueryString["searchBook"].IsEmpty())
+    {
+        selectCommand = "SELECT * FROM Scriptures WHERE Book = @0";
+        searchTerm = Request.QueryString["searchBook"];
+    }
+
+    if (!Request.QueryString["searchSubBook"].IsEmpty())
+    {
+        selectCommand = "SELECT * FROM Scriptures WHERE SubBook LIKE @0";
+        searchTerm = "%" + Request.QueryString["searchSubBook"] + "%";
+    }
+
+    var selectedData = db.Query(selectCommand, searchTerm);
+    var grid = new WebGrid(source: selectedData, defaultSort: "SubBook", rowsPerPage: 5);
+}
+<h2>List Scriptures</h2>
+<form method="get">
+    <div>
+        <label for="searchBook">Book to look for:</label>
+        <input type="text" name="searchBook"
+               value="@Request.QueryString["searchBook"]" />
+        <input type="Submit" value="Search Book" /><br />
+        (Leave blank to list all Books.)<br />
+    </div>
+    <div>
+        <label for="SearchSubBook">Scripture title contains the following:</label>
+        <input type="text" name="searchSubBook" value="@Request.QueryString["searchSubBook"]" />
+        <input type="Submit" value="Search SubBook" /><br />
+    </div>
+</form>
+<div>
+    @grid.GetHtml(
+        tableStyle: "grid",
+        headerStyle: "head",
+        alternatingRowStyle: "alt",
+        columns: grid.Columns(
+            grid.Column(format: @<a href="~/EditScripture.cshtml?id=@item.ID">Edit</a>),
+            grid.Column("Chapter", null, null, null, false),
+            grid.Column("Book"),
+            grid.Column("Date"),
+            grid.Column("SubBook"),
+            grid.Column("Verse"),
+            grid.Column("Notes"),
+            grid.Column(format: @<a href="~/DeleteScripture.cshtml?id=@item.ID">Delete</a>)
+       )
+    )
+</div>
+<p><a href="~/AddScripture.cshtml">Add a Scripture</a></p>

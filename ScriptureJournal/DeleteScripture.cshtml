@@ -1,0 +1,99 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Delete a Scripture";
+
+    var chapter = "";
+    var book = "";
+    var date = "";
+    var subbook = "";
+    var verse = "";
+    var notes = "";
+    var scriptureId = "";
+
+    if (!IsPost)
+    {
+        if (!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].AsInt() > 0)
+        {
+            scriptureId = Request.QueryString["ID"];
+            var db = Database.Open("WebPagesMovies");
+            var dbCommand = "SELECT * FROM Scriptures WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, scriptureId);
+            if (row != null)
+            {
+                chapter = row.Chapter;
+                book = row.Book;
+                date = row.Date;
+                subbook = row.SubBook;
+                verse = row.Verse;
+                notes = row.Notes;
+
+            }
+            else
+            {
+                Validation.AddFormError("No scriptures was found for that ID.");
+                // If you are using a version of ASP.NET Web Pages 2 that's
+                // earlier than the RC release, comment out the preceding
+                // statement and uncomment the following one.
+                //ModelState.AddFormError("No movie was found for that ID.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("No scriptures was found for that ID.");
+            // If you are using a version of ASP.NET Web Pages 2 that's
+            // earlier than the RC release, comment out the preceding
+            // statement and uncomment the following one.
+            //ModelState.AddFormError("No movie was found for that ID.");
+        }
+    }
+
+    if (IsPost && !Request["buttonDelete"].IsEmpty())
+    {
+      scriptureId = Request.Form["scripturesId"];
+        var db = Database.Open("WebPagesMovies");
+        var deleteCommand = "DELETE FROM Scriptures WHERE ID = @0";
+        db.Execute(deleteCommand, scriptureId);
+        Response.Redirect("~/Movies");
+    }
+
+}
+
+<h2>Delete a Scripture</h2>
+@Html.ValidationSummary()
+<p><a href="~/Movies">Return to scripture listing</a></p>
+
+<form method="post">
+    <fieldset>
+        <legend>Scripture Information</legend>
+
+        <p>
+            <span>Chapter:</span>
+            <span>@chapter</span>
+        </p>
+
+        <p>
+            <span>Book:</span>
+            <span>@book</span>
+        </p>
+
+        <p>
+            <span>Date:</span>
+            <span>@date</span>
+
+        <p>
+            <span>SubBook:</span>
+            <span>@subbook</span>
+
+        <p>
+            <span>Verse:</span>
+            <span>@verse</span>
+
+        <p>
+            <span>Notes:</span>
+            <span>@notes</span>
+        </p>
+
+        <input type="hidden" name="scriptureid" value="@scriptureId" />
+        <p><input type="submit" name="buttonDelete" value="Delete Scripture" /></p>
+    </fieldset>
+</form>
