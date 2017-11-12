@@ -43,10 +43,10 @@
         alternatingRowStyle: "alt",
         columns: grid.Columns(
             grid.Column(format: @<a href="~/EditScripture.cshtml?id=@item.ID">Edit</a>),
-            grid.Column("Chapter", null, null, null, false),
-            grid.Column("Book"),
             grid.Column("Date"),
+            grid.Column("Book"),
             grid.Column("SubBook"),
+            grid.Column("Chapter", null, null, null, false),
             grid.Column("Verse"),
             grid.Column("Notes"),
             grid.Column(format: @<a href="~/DeleteScripture.cshtml?id=@item.ID">Delete</a>)

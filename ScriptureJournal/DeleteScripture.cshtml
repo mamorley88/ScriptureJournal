@@ -22,7 +22,7 @@
             {
                 chapter = row.Chapter;
                 book = row.Book;
-                date = row.Date;
+                //date = row.Date;
                 subbook = row.SubBook;
                 verse = row.Verse;
                 notes = row.Notes;
@@ -49,7 +49,7 @@
 
     if (IsPost && !Request["buttonDelete"].IsEmpty())
     {
-      scriptureId = Request.Form["scripturesId"];
+        scriptureId = Request.Form["scripturesId"];
         var db = Database.Open("WebPagesMovies");
         var deleteCommand = "DELETE FROM Scriptures WHERE ID = @0";
         db.Execute(deleteCommand, scriptureId);
@@ -67,22 +67,20 @@
         <legend>Scripture Information</legend>
 
         <p>
-            <span>Chapter:</span>
-            <span>@chapter</span>
-        </p>
-
+            @*<span>Date:</span>
+            <span>@date</span>*@
+                   
         <p>
             <span>Book:</span>
             <span>@book</span>
-        </p>
-
-        <p>
-            <span>Date:</span>
-            <span>@date</span>
-
+        
         <p>
             <span>SubBook:</span>
             <span>@subbook</span>
+
+        <p>
+            <span>Chapter:</span>
+            <span>@chapter</span>
 
         <p>
             <span>Verse:</span>
@@ -93,7 +91,7 @@
             <span>@notes</span>
         </p>
 
-        <input type="hidden" name="scriptureid" value="@scriptureId" />
+        <input type="hidden" name="scriptureId" value="@scriptureId" />
         <p><input type="submit" name="buttonDelete" value="Delete Scripture" /></p>
     </fieldset>
 </form>

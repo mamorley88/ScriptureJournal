@@ -75,14 +75,14 @@
         <legend>Scripture Information</legend>
 
         <p>
-            <label for="chapter">Chapter:</label>
-            <input type="text" name="chapter" value="@chapter" />
-            @Html.ValidationMessage("chapter")
-
-        <p>
             <label for="book">Book:</label>
             <input type="text" name="book" value="@book" />
             @Html.ValidationMessage("book")
+
+        <p>         
+            <label for="subbook">SubBook:</label>
+            <input type="text" name="subbook" value="@subbook" />
+            @Html.ValidationMessage("subbook")
 
         @*<p>
             <label for="date">Date:</label>
@@ -90,10 +90,9 @@
             @Html.ValidationMessage("date")*@
         
         <p>
-            <label for="subbook">SubBook:</label>
-            <input type="text" name="subbook" value="@subbook" />
-            @Html.ValidationMessage("subbook")
-
+            <label for="chapter">Chapter:</label>
+            <input type="text" name="chapter" value="@chapter" />
+            @Html.ValidationMessage("chapter")
         <p>
             <label for="verse">Verse:</label>
             <input type="text" name="verse" value="@verse" />
